@@ -24,7 +24,7 @@ public class GrapplingHook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0)){
+        if(Input.GetMouseButtonDown(0) && GameManager.editMode == false){
             Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
             Vector2 dir = (mousePos-(Vector2)transform.position).normalized;
 
@@ -48,7 +48,7 @@ public class GrapplingHook : MonoBehaviour
                 lr.SetPosition(n+1, points[j]);
             }
         }
-        if(Input.GetKeyDown(KeyCode.Space)){
+        if(Input.GetKeyDown(KeyCode.Space) || GameManager.editMode){
             Detatch();
         }
     }
