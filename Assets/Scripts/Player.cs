@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class Player : MonoBehaviour
     [SerializeField] ParticleSystem ps;
     [SerializeField] Transform frontCheck;
     [SerializeField] private float wallJumpTime, dashDistance = 15f;
+    [SerializeField] private float dashTime;
+    [SerializeField] private int playerHealth;
+    [SerializeField] private Text playerHealthText;
 
     //hidden variables
     private float moveInput;
@@ -32,6 +36,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         extraJumps = resetJumps;
         extraDashes = resetDashes;
+        playerHealthText.text = "Player health: " + playerHealth;
     }
   
     void Update()
@@ -114,7 +119,7 @@ public class Player : MonoBehaviour
                     
                 }
                 else{
-                    doubleTapTime = Time.time + 0.5f;   //0.5f is the time you can dash in
+                    doubleTapTime = Time.time + dashTime;   //0.5f is the time you can dash in
                 }
                 lastKeyCode = KeyCode.A;
             }
@@ -179,5 +184,19 @@ public class Player : MonoBehaviour
             Vector3 psVec = new Vector3(transform.position.x, transform.position.y-.5f, transform.position.z);
             ParticleSystem spawnedPs = Instantiate(ps, psVec, Quaternion.identity);
         }
+
+        //head bounce
+        if(other.gameObject.CompareTag("enemy") && Input.GetKey(KeyCode.S)){
+            rb.velocity = Vector2.up * jumpForce;
+        }
+        //enemy deals damage
+        else if(other.gameObject.CompareTag("enemy")){
+            playerHealth--;
+            playerHealthText.text = "Player health: " + playerHealth;
+            if(playerHealth == 0){
+                print("gameover");
+            }
+        }
+
     }
 }
