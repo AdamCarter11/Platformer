@@ -1,0 +1,8 @@
+Things added so far:
+-double jumping
+-dashing (double tap in a direction)
+-teleporting (T)
+-grappling hook (click on valid objects)
+-edit mode to click and drag objects (E to toggle on/off)
+-head bouncing like in shovel knight (press down while landing on enemy)
+-wall jumping/holding

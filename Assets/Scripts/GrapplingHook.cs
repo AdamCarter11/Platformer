@@ -14,6 +14,8 @@ public class GrapplingHook : MonoBehaviour
     private Rigidbody2D rb;
     private List<Vector2> points = new List<Vector2>();
 
+    [HideInInspector] public static bool isGrappled;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +27,7 @@ public class GrapplingHook : MonoBehaviour
     void Update()
     {
         if(Input.GetMouseButtonDown(0) && GameManager.editMode == false){
+            isGrappled = true;
             Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
             Vector2 dir = (mousePos-(Vector2)transform.position).normalized;
 
@@ -55,6 +58,7 @@ public class GrapplingHook : MonoBehaviour
 
     void Detatch(){
         lr.positionCount = 0;
+        isGrappled = false;
         points.Clear();
     }
 

@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     //inspector variables
     [SerializeField] private float speed, jumpForce, checkRadius;
     [SerializeField] private int resetJumps, health, resetDashes;
-    [SerializeField] Transform groundCheck;
+    [SerializeField] Transform groundCheck, teleportCheck;
     [SerializeField] LayerMask whatIsGround;
     [SerializeField] ParticleSystem ps;
     [SerializeField] Transform frontCheck;
@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     private bool isDashing;
     private float doubleTapTime;
     private KeyCode lastKeyCode;
+    private bool canTeleport;
 
     void Awake()
     {
@@ -54,7 +55,12 @@ public class Player : MonoBehaviour
             }
 
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+            canTeleport = !Physics2D.OverlapCircle(teleportCheck.position, checkRadius);
             isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, checkRadius, whatIsGround);
+
+            if(Input.GetKeyDown(KeyCode.T) && canTeleport && !GrapplingHook.isGrappled){
+                transform.position = teleportCheck.position;
+            }
 
             if(isGrounded){
                 extraJumps = resetJumps;
